@@ -21,8 +21,6 @@ import java.io.IOException;
  */
 public class populate {
     
-    static ResultSet resultSet1 = null;
-    static Statement statement1 = null;
     static Connection c = null;
     
 
@@ -32,24 +30,7 @@ public class populate {
     public static void main(String[] args) {
         try{
         c = JavaConnectDB.ConnectDB();
-        
-        statement1 = c.createStatement();
-        
-        resultSet1 = statement1.executeQuery("Select * from testtable");
-        
-        //System.out.println(resultSet1);
-        ResultSetMetaData rsmd = resultSet1.getMetaData();
-        int columnsNumber = rsmd.getColumnCount();
        
-        while(resultSet1.next()){
-            for(int i = 1 ; i <= columnsNumber; i ++){
-                if (i > 1) System.out.print(", ");
-                String columnValue = resultSet1.getString(i);
-                System.out.print(columnValue + " " + rsmd.getColumnName(i));
-            }
-            System.out.println();
-        }
-        
         try{populateTags(c);}catch (Exception e){ System.out.println("Error populating Tags");}
         try{populateMovies(c);}catch (Exception e){ System.out.println("Error populating Movies");}
         try{populateGenres(c);}catch (Exception e){ System.out.println("Error populating Genres");}
@@ -59,7 +40,7 @@ public class populate {
         
         JavaConnectDB.CloseConnectionDB(c);
         } catch (SQLException e){}
-        // TODO code application logic here
+      
     }
     
     public static void populateLocations(Connection c) throws Exception{
